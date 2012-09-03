@@ -1,0 +1,2 @@
+../lib/class/Class.js,../src/Notification.js,../src/Observer.js,../src/Notifier.js
+baseten.notifier.min.js
