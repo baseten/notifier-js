@@ -12,6 +12,17 @@ var Notifier = Class.extend({
 		delete this.observers[name];
 	},
 	
+	getObserverKeys: function () {
+		var names = [];
+		var name;
+		
+		for(name in this.observers) {
+			names.push(name);
+		}
+		
+		return names;
+	},
+	
 	hasObserver: function (name, observer) {
 		if(!this.hasObserverKey(name)) return false;
 			
@@ -72,9 +83,26 @@ var Notifier = Class.extend({
 	},
 	
 	removeObservers: function (name) {
-		if(!this.hasObserverKey(name)) return;
+		var names, i;
 		
-		this.removeObserverKey(name);
+		name = typeof(name) == 'undefined' ? false : name;
+		
+		if(name) {
+			// remove observers against a key
+			if(!this.hasObserverKey(name)) return;
+		
+			this.removeObserverKey(name);
+		}
+		else {
+			// remove all observers against this object
+			names = this.getObserverKeys();
+			i = names.length;
+			
+			while(--i > -1) {
+				name = names[i]
+				this.removeObserverKey(name);
+			}
+		}
 	},
 	
 	sendNotification: function (name, body, type) {

@@ -36,7 +36,10 @@ var Dispatcher = Notifier.extend({
 	
 	init: function () {
 		this.foo = 0;
-	}
+		
+		// remember to call super, this is where the observers map is initialized
+		this._super();
+	},
 	
 	updateSomething: function (value) {
 		this.foo = value;
@@ -72,7 +75,11 @@ dispatcher.updateSomething(2);
 
 dispatcher.removeObserver(Dispatcher.CUSTOM_EVENT, this, onFooUpdated);
 
-// alternatively there is also a brute force method to remove *all* observers
+// alternatively there is also a brute force method to remove all observers against a named event
+
+dispatcher.removeObservers(Dispatcher.CUSTOM_EVENT);
+
+// or ALL observers registered on a Notifier - careful
 
 dispatcher.removeObservers();
 </script>
