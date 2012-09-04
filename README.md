@@ -57,11 +57,23 @@ function onFooUpdated(n) {
 }
 
 // to listen for events you need to register an observer
-// this is very similar to addEventListener in AS3
+// this is similar to addEventListener in AS3
 // the second argument gets around scoping issues in Javascript so the callback function is run on the correct object
+// this means a direct reference to the callback function can be used (even with inner functions), not a call wrapped in an anonymous function
 
 var dispatcher = new Dispatcher();
 dispatcher.registerObserver(Dispatcher.CUSTOM_EVENT, this, onFooUpdated);
 dispatcher.updateSomething(2);
+
+// there are two ways to remove observers, the first targets individual observers and corresponds to registerObserver
+// this is similar to removeEventListener in AS3
+// because internally NotifierJS uses .call() with the scope provided by the second argument to registerObserver
+// there are none of the problems with removing listeners you sometimes get when anonymous functions are used to wrap callbacks
+
+dispatcher.removeObserver(Dispatcher.CUSTOM_EVENT, this, onFooUpdated);
+
+// alternatively there is also a brute force method to remove *all* observers
+
+dispatcher.removeObservers();
 </script>
 ```
