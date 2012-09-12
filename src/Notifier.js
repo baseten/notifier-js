@@ -105,13 +105,22 @@ var Notifier = Class.extend({
 		}
 	},
 	
+	forwardNotification: function (n) {
+		
+		if(!this.hasObserverKey(n.getName())) return;
+		
+		this._sendNotification(n);
+	},
+	
 	sendNotification: function (name, body, type) {
 		
 		if(!this.hasObserverKey(name)) return;
 		
-		var notification = new Notification(name, body, type);
-		
-		var observers = this.observers[name];
+		this._sendNotification(new Notification(name, body, type));
+	},
+	
+	_sendNotification: function (notification) {
+		var observers = this.observers[notification.getName()];
 		var i = observers.length;
 		var observer;
 		
