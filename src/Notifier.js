@@ -129,9 +129,13 @@ var Notifier = Class.extend({
 		
 		var observersCopy = [];
 		
+		// this process will reverse the array
+		// this is ok as the final loop is also backwards
+		// so observers will be notified in the order they were registered
+		
 		while(--i > -1) {
 			observer = observers[i];
-			observersCopy.unshift(observer);
+			observersCopy.push(observer);
 		}
 		
 		i = observersCopy.length;
